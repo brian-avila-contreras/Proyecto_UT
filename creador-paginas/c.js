@@ -47,139 +47,173 @@ document.addEventListener('DOMContentLoaded', function() {
         switch (sectionType) {
             case '1': // Título
                 sectionHTML = `
-                    <div class="section">
-                    <label for="title">Título:</label>
-        <input type="text" class="section-title" placeholder="Ingrese aquí su título" id="section-title">
-        <button class="removeSection">Eliminar <i class="fa-solid fa-xmark"></i></button>
-    <button type="button" class="btn btn-outline-primary" id="btnb" > OPCIONES <i class="fa-solid fa-sliders"></i></button>
-    
-    <div class="configContent" style="display: none;">
-        <label for="color-title"> Elige el color del titulo:</label>
-        <input type="color" class="section-title-color" value="#000000">
-        <br>
-        <label for="alin-title"> Elige la alineación del titulo:</label>
-        <select class="section-title-alignment">
-            <option value="left">Izquierda</option>
-            <option value="center">Centro</option>
-            <option value="right">Derecha</option>
-        </select>
-        <br>
-        <input type="number" class="section-title-font-size" placeholder="Tamaño fuente (px)" min="1" value="24">
-        <select class="section-title-font-family">
-            <option value="Arial">Arial</option>
-            <option value="Georgia">Georgia</option>
-            <option value="Times New Roman">Times New Roman</option>
-            <option value="Verdana">Verdana</option>
-        </select>
-        
-    </div>
-</div>
+            <div class="section">
+                        <label for="title">Título:</label>
+                        <input type="text" class="section-title" placeholder="Ingrese aquí su título" id="section-title" required >
+                        <button class="removeSection">Eliminar <i class="fa-solid fa-xmark"></i></button>
+                        <button type="button" class="btn btn-outline-primary" id="btnb" > OPCIONES <i class="fa-solid fa-sliders"></i></button>
+                <div class="configContent" style="display: none;">
+                        <label for="color-title"> Elige el color del titulo:</label>
+                        <input type="color" class="section-title-color" value="#000000">
+                        <br>
+                        <label for="alin-title"> Elige la alineación del titulo:</label>
+                    <select class="section-title-alignment">
+                        <option value="left">Izquierda</option>
+                        <option value="center">Centro</option>
+                        <option value="right">Derecha</option>
+                    </select>
+                        <label for="alin-title">Tamaño:</label>
+                        <input type="number" class="section-title-font-size" placeholder="Tamaño fuente (px)" min="1" value="24"  required > 
+                        <label for="alin-title">Tipografía:</label>
+                    <select class="section-title-font-family">
+                        <option value="Arial">Arial</option>
+                        <option value="Georgia">Georgia</option>
+                        <option value="Times New Roman">Times New Roman</option>
+                        <option value="Verdana">Verdana</option>
+                    </select>
+                </div>
+            </div>
 `;
                 break;
             case '2': // Texto
+
                 sectionHTML = `
-    <label for="text">Texto:</label>
-                        <textarea class="section-text" placeholder="Ingrese aquí su texto"></textarea>
-                        <button class="removeSection">Eliminar <i class="fa-solid fa-xmark"></i></button>
-    <button type="button" class="btn btn-outline-primary" id="btnb" > OPCIONES <i class="fa-solid fa-sliders"></i></button>
-                    <div class="section">
-                        <div class="configContent" style="display: none;">
-                        <input type="color" class="section-text-color" value="#000000">
-                        <select class="section-text-alignment">
-                            <option value="left">Izquierda</option>
-                            <option value="center">Centro</option>
-                            <option value="right">Derecha</option>
-                        </select>
-                        <input type="number" class="section-text-font-size" placeholder="Tamaño fuente (px)" min="1" value="16">
-                        <select class="section-text-font-family">
-                            <option value="Arial">Arial</option>
-                            <option value="Georgia">Georgia</option>
-                            <option value="Times New Roman">Times New Roman</option>
-                            <option value="Verdana">Verdana</option>
-                        </select>
-                        <button class="removeSection">Eliminar sección</button>
-                    </div>
-                    </div>`;
+            <div class="section">
+                    <label for="text">Texto:</label>
+                    <textarea class="section-text" placeholder="Ingrese aquí su texto" required ></textarea>
+                    <button class="removeSection">Eliminar <i class="fa-solid fa-xmark"></i></button>
+                    <button type="button" class="btn btn-outline-primary" id="btnb"> OPCIONES <i class="fa-solid fa-sliders"></i></button>
+                <div class="configContent" style="display: none;">
+                    <label for="text">Color de Texto:</label>
+                    <input type="color" class="section-text-color" value="#000000"> <br>
+                    <label for="text">Alineación Texto:</label>
+                    <select class="section-text-alignment">
+                    <option value="left">Izquierda</option>
+                    <option value="center">Centro</option>
+                    <option value="right">Derecha</option>
+                    </select>
+                    <label for="text">Tamaño Texto:</label>
+                    <input type="number" class="section-text-font-size" placeholder="Tamaño fuente (px)" min="1" value="16" required >
+                    <label for="text">Fuente Texto:</label>
+                    <select class="section-text-font-family">
+                    <option value="Arial">Arial</option>
+                    <option value="Georgia">Georgia</option>
+                    <option value="Times New Roman">Times New Roman</option>
+                    <option value="Verdana">Verdana</option>
+                    </select>
+                </div>
+            </div>`;
                 break;
             case '3': // Imagen
-                sectionHTML = `<button type="button" class="btn btn-outline-primary"> OPCIONES <i class="fa-solid fa-sliders"></i></button>
-    <div class="configContent" style="display: none;">
-                    <div class="section">
-                        <label for="image">Imagen:</label>
-                        <input type="file" class="section-image" id="inputGroupFile01"">
-                        <input type="number" class="section-image-width" placeholder="Ancho (px)" min="1" value="700">
-                        <input type="hidden" class="section-image-height" placeholder="Alto (px)" min="1" value="auto" >
-                        <select class="section-image-alignment">
-                            <option value="left">Izquierda</option>
-                            <option value="center">Centro</option>
-                            <option value="right">Derecha</option>
-                        </select>
-                        <button class="removeSection">Eliminar sección</button>
+                sectionHTML = `
+            <div class="section">
+             <div class="td1">
+            <div class="section1">
+                    <label for="imagen">Imagen: </label><br>
+                      <input type="file" class="section-image form-control me-2" id="inputGroupFile01" required >
                     </div>
-                    </div>`;
+                   <div class="section2">
+                    <button class="removeSection">Eliminar <i class="fa-solid fa-xmark"></i></button>
+                    <button type="button" class="btn btn-outline-primary" id="btnb"> OPCIONES <i class="fa-solid fa-sliders"></i></button>
+                    
+                    <div class="configContent" style="display: none;">
+                    <label for="timagen">Tamaño Imagen:</label>
+                    <input type="number" class="section-image-width" placeholder="Ancho (px)" min="1" value="700" required >
+                    <input type="hidden" class="section-image-height" placeholder="Alto (px)" min="1" value="auto" >
+                    <label for="timagen">Alineación Imagen:</label>
+                    <select class="section-image-alignment">
+                    <option value="left">Izquierda</option>
+                    <option value="center">Centro</option>
+                    <option value="right">Derecha</option>
+                    </select>                        
+                </div>
+                    </div>
+                    </div>
+                    
+                
+            </div>`;
                 break;
-            case '4': // Video
-                sectionHTML = `<button type="button" class="btn btn-outline-primary"> OPCIONES <i class="fa-solid fa-sliders"></i></button>
-    <div class="configContent" style="display: none;">
-                    <div class="section">
-                        <label for="video">Video:</label>
-                        <input type="file" class="section-video">
-                        <input type="number" class="section-video-width" placeholder="Ancho (px)" min="1" value="700">
-                        <input type="hidden" class="section-video-height" placeholder="Alto (px)" min="1" value="auto" >
-                        <select class="section-video-alignment">
-                            <option value="left">Izquierda</option>
-                            <option value="center">Centro</option>
-                            <option value="right">Derecha</option>
-                        </select>
-                        <button class="removeSection">Eliminar sección</button>
+            case '4': // video
+                sectionHTML = `
+            <div class="section">
+                <div class="td1">
+                    <div class="section1">
+                        <label for="video">video:</label>
+                        <input type="file" class="section-video form-control me-2" id="inputGroupFile01" required >
                     </div>
-                    </div>`;
+                    <div class="section2">
+                        <button class="removeSection">Eliminar <i class="fa-solid fa-xmark"></i></button>
+                        <button type="button" class="btn btn-outline-primary" id="btnb"> OPCIONES <i class="fa-solid fa-sliders"></i></button>
+                    <div class="configContent" style="display: none;">
+                        <label for="tvideo">Tamaño video:</label>
+                        <input type="number" class="section-video-width" placeholder="Ancho (px)" min="1" value="700" required >
+                        <input type="hidden" class="section-video-height" placeholder="Alto (px)" min="1" value="auto" >
+                        <label for="tvideo">Alineación video:</label>
+                        <select class="section-video-alignment">
+                        <option value="left">Izquierda</option>
+                        <option value="center">Centro</option>
+                        <option value="right">Derecha</option>
+                        </select>                        
+                    </div>
+                    </div>
+                </div>
+            </div>`;
                 break;
             case '5': // URL
-                sectionHTML = `<button type="button" class="btn btn-outline-primary"> OPCIONES <i class="fa-solid fa-sliders"></i></button>
-    <div class="configContent" style="display: none;">
-                    <div class="section">
-                        <label for="url">URL:</label>
-                        <input type="text" class="section-url" placeholder="Ingrese la URL">
-                        <button class="removeSection">Eliminar sección</button>
-                    </div>
-                    </div>`;
+                sectionHTML = `
+            <div class="section">
+                    <label for="url">URL:</label>
+                    <input type="text" class="section-url" placeholder="Ingrese la URL" required >
+                    <button class="removeSection">Eliminar <i class="fa-solid fa-xmark"></i></button>
+                <div class="configContent" style="display: none;">   
+                </div>
+            </div>`;
                 break;
             case '6': // Título y Texto
-                sectionHTML = `<button type="button" class="btn btn-outline-primary"> OPCIONES <i class="fa-solid fa-sliders"></i></button>
-    <div class="configContent" style="display: none;">
+                sectionHTML = `
                     <div class="section">
                         <label for="title">Título:</label>
-                        <input type="text" class="section-title" placeholder="Ingrese aquí su título">
-                        <input type="color" class="section-title-color" value="#000000">
-                        <select class="section-title-alignment">
-                            <option value="left">Izquierda</option>
-                            <option value="center">Centro</option>
-                            <option value="right">Derecha</option>
-                        </select>
-                        <input type="number" class="section-title-font-size" placeholder="Tamaño fuente (px)" min="1" value="24">
-                        <select class="section-title-font-family">
-                            <option value="Arial">Arial</option>
-                            <option value="Georgia">Georgia</option>
-                            <option value="Times New Roman">Times New Roman</option>
-                            <option value="Verdana">Verdana</option>
-                        </select>
+                        <input type="text" class="section-title" placeholder="Ingrese aquí su título" required >
                         <label for="text">Texto:</label>
-                        <textarea class="section-text" placeholder="Ingrese aquí su texto"></textarea>
-                        <input type="color" class="section-text-color" value="#000000">
+                        <textarea class="section-text" placeholder="Ingrese aquí su texto" required ></textarea>
+                        <button class="removeSection">Eliminar <i class="fa-solid fa-xmark"></i></button>
+                        <button type="button" class="btn btn-outline-primary" id="btnb"> OPCIONES <i class="fa-solid fa-sliders"></i></button>
+                    <div class="configContent" style="display: none;">
+                        <label for="title">Color Título:</label>
+                        <input type="color" class="section-title-color" value="#000000"> <br>
+                        <label for="title">Alineación Título:</label>
+                        <select class="section-title-alignment">
+                        <option value="left">Izquierda</option>
+                        <option value="center">Centro</option>
+                        <option value="right">Derecha</option>
+                        </select>
+                        <label for="title">Tamaño Título:</label>
+                        <input type="number" class="section-title-font-size" placeholder="Tamaño fuente (px)" min="1" value="24" required >
+                        <label for="title">Fuente Título:</label>
+                        <select class="section-title-font-family">
+                        <option value="Arial">Arial</option>
+                        <option value="Georgia">Georgia</option>
+                        <option value="Times New Roman">Times New Roman</option>
+                        <option value="Verdana">Verdana</option>
+                        </select>
+                        <br>
+                        <label for="title">Color Texto:</label>
+                        <input type="color" class="section-text-color" value="#000000"> <br>
+                        <label for="title">Alineación Título:</label>
                         <select class="section-text-alignment">
-                            <option value="left">Izquierda</option>
-                            <option value="center">Centro</option>
-                            <option value="right">Derecha</option>
+                        <option value="left">Izquierda</option>
+                        <option value="center">Centro</option>
+                        <option value="right">Derecha</option>
                         </select>
-                        <input type="number" class="section-text-font-size" placeholder="Tamaño fuente (px)" min="1" value="16">
+                        <label for="title">Tamaño Texto:</label>
+                        <input type="number" class="section-text-font-size" placeholder="Tamaño fuente (px)" min="1" value="16" required >
+                        <label for="title">Fuente Texto:</label>
                         <select class="section-text-font-family">
-                            <option value="Arial">Arial</option>
-                            <option value="Georgia">Georgia</option>
-                            <option value="Times New Roman">Times New Roman</option>
-                            <option value="Verdana">Verdana</option>
+                        <option value="Arial">Arial</option>
+                        <option value="Georgia">Georgia</option>
+                        <option value="Times New Roman">Times New Roman</option>
+                        <option value="Verdana">Verdana</option>
                         </select>
-                        <button class="removeSection">Eliminar sección</button>
                     </div>
                     </div>`;
                 break;

@@ -47,9 +47,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <style>
             /* Agregar aquí el CSS dinámico generado */
             .navbar-brand img {
-            height: 50px; /* Ajusta la altura del logo según sea necesario */
-            width: auto; /* Mantiene la proporción del logo */
-        }
+                height: 50px; /* Ajusta la altura del logo según sea necesario */
+                width: auto; /* Mantiene la proporción del logo */
+            }
             body {
                 font-family: Arial, sans-serif;
             }
@@ -58,21 +58,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 margin: 20px 0;
             }
 
-            <?php if (isset($section['title'])): ?>.section-<?php echo $index; ?>h1 {
+            <?php if (isset($section['title'])): ?>.section-<?php echo $index; ?> h1 {
                 color: <?php echo htmlspecialchars($section['titleColor']); ?>;
                 text-align: <?php echo htmlspecialchars($section['titleAlignment']); ?>;
                 font-size: <?php echo htmlspecialchars($section['titleFontSize']); ?>px;
                 font-family: <?php echo htmlspecialchars($section['titleFontFamily']); ?>;
+                margin: 0; /* Elimina márgenes para un ajuste más preciso */
+                word-wrap: break-word; /* Asegura que el texto largo se divida para evitar desbordamiento */
             }
 
-            <?php endif; ?><?php if (isset($section['text'])): ?>.section-<?php echo $index; ?>p {
+            <?php endif; ?><?php if (isset($section['text'])): ?>.section-<?php echo $index; ?> p {
                 color: <?php echo htmlspecialchars($section['textColor']); ?>;
                 text-align: <?php echo htmlspecialchars($section['textAlignment']); ?>;
                 font-size: <?php echo htmlspecialchars($section['textFontSize']); ?>px;
                 font-family: <?php echo htmlspecialchars($section['textFontFamily']); ?>;
+                line-height: 1.5; /* Mejora la legibilidad del texto */
+                word-wrap: break-word; /* Asegura que el texto largo se divida para evitar desbordamiento */
+                margin: 0; /* Elimina márgenes para un ajuste más preciso */
             }
 
-            <?php endif; ?><?php if (isset($section['image'])): ?>.section-<?php echo $index; ?>img {
+            <?php endif; ?><?php if (isset($section['image'])): ?>.section-<?php echo $index; ?> img {
                 display: block;
                 margin-left: <?php echo $section['imageAlignment'] == 'center' ? 'auto' : ($section['imageAlignment'] == 'left' ? '0' : 'auto'); ?>;
                 margin-right: <?php echo $section['imageAlignment'] == 'center' ? 'auto' : ($section['imageAlignment'] == 'right' ? '0' : 'auto'); ?>;
@@ -80,7 +85,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 height: <?php echo htmlspecialchars($section['imageHeight']); ?>;
             }
 
-            <?php endif; ?><?php if (isset($section['video'])): ?>.section-<?php echo $index; ?>video {
+            <?php endif; ?><?php if (isset($section['video'])): ?>.section-<?php echo $index; ?> video {
                 display: block;
                 margin-left: <?php echo $section['videoAlignment'] == 'center' ? 'auto' : ($section['videoAlignment'] == 'left' ? '0' : 'auto'); ?>;
                 margin-right: <?php echo $section['videoAlignment'] == 'center' ? 'auto' : ($section['videoAlignment'] == 'right' ? '0' : 'auto'); ?>;
