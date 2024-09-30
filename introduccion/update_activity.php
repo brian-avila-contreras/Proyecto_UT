@@ -17,7 +17,10 @@ $stmt = $conn->prepare($query);
 $stmt->bind_param("i", $userId);
 $stmt->execute();
 $stmt->close();
-$conn->close();
 
+// Destruir la sesión para colapsar la sesión del usuario
+session_destroy();
+
+// Devolver respuesta JSON
 echo json_encode(['status' => 'success']);
 ?>
