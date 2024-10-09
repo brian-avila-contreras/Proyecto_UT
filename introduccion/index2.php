@@ -366,7 +366,7 @@ $conn->close();
     </nav>
 
     <div class="container">
-        <div class="progress-bar">
+        <div class="progress-bar progress-bar-striped bg-danger">
             <div id="progress"></div>
         </div>
 
