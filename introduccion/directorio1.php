@@ -1,3 +1,31 @@
+<?php
+session_start();
+require 'db.php'; // Conectar a la base de datos
+
+// Verificar si el usuario ha iniciado sesión
+if (!isset($_SESSION['user_id'])) {
+    echo "<script>alert('No has iniciado sesión.'); window.location.href = 'login.php';</script>"; // Redirigir a la página de inicio de sesión
+    exit();
+}
+
+// Obtener el ID del usuario activo
+$userId = $_SESSION['user_id'];
+
+// Verificar el estado de actividad del usuario
+$query = "SELECT actividad FROM usuarios WHERE id = ?";
+$stmt = $conn->prepare($query);
+$stmt->bind_param("i", $userId);
+$stmt->execute();
+$stmt->bind_result($actividad);
+$stmt->fetch();
+$stmt->close();
+
+if ($actividad == 1) {
+    echo "<script>alert('Usted ya realizó la lectura y aceptó las secciones. No puede acceder nuevamente a esta página.'); window.location.href = 'login.php';</script>";
+    exit();
+}
+
+?>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -10,18 +38,21 @@
             font-family: Arial, sans-serif;
             background-color: #f0f0f0;
         }
+
         .pyramid-container {
             display: flex;
             flex-direction: column;
             align-items: center;
             margin: 20px;
         }
+
         .row {
             display: flex;
             justify-content: center;
             margin-bottom: 40px;
             width: 100%;
         }
+
         .box {
             width: 340px;
             height: auto;
@@ -31,37 +62,47 @@
             background-color: white;
             padding: 2px;
         }
+
         .box1 {
             width: 100%;
             height: 100%;
             justify-content: center;
             align-items: center;
             display: flex;
-            border: 1px solid red;
+            border: 1px solid #eb4947;
         }
+
+        .box1 a {
+           color: #eb4947;
+           text-decoration: none;
+        }
+
         .info {
             width: 0%;
             height: auto;
             font-size: 0px;
             transition: all 0.3s ease-in-out;
         }
+
         .box1 img {
             width: 45%;
             height: auto;
             object-fit: cover;
             display: block;
             margin-bottom: 10px;
-            border: 2px solid red;
+            border: 2px solid #eb4947;
             margin: 2px;
         }
+
         /* Al hacer hover en la imagen, aplicamos el estilo a .info */
         .box1:hover .info {
             width: 50%;
             height: 170px;
             padding: 5px;
-            background-color: gray;
+            background-color: transparent;
             font-size: 14px;
-            color: white;
+            border: 1px solid #eb4947;
+            color: black;
             margin: 5px;
             visibility: visible;
             /* Aseguramos que sea visible */
@@ -79,13 +120,24 @@
             align-items: flex-start;
             /* Alineado a la izquierda */
         }
+
         .title {
-            background-color: red;
+            background-color: #eb4947;
             color: white;
             padding: 6px;
             font-size: 12px;
             width: 250px;
             margin-left: 50px;
+        }
+
+        .next-btn {
+            padding: 10px 20px;
+            background-color: #eb4947;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
         }
     </style>
 </head>
@@ -93,7 +145,7 @@
 <body>
 
     <div class="pyramid-container">
-
+        <a class="next-btn" id="nextBtn" href="index.php">Volver</a>
         <!-- Row 1 -->
         <div class="row">
             <div class="box">
@@ -140,7 +192,7 @@
                 <div class="box1">
                     <img src="../img/4.jpg" alt="Image 4">
                     <div class="info" id="info">
-                        <p>Diego Alberto Polo Paredes</p>
+                        <p>Diego Alberto Polo Pa#eb4947es</p>
                         <sub>Directivo</sub>
                         <br>
                         <a href="mailto:vdh@ut.edu.co">vdh@ut.edu.co</a>

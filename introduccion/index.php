@@ -133,7 +133,7 @@ La Vicerrectoría de Docencia comprende las facultades, institutos, escuelas, de
             [
                 'nombre' => 'Mario Ricardo López',
                 'cargo' => 'Vicerrector Administrativo',
-                'imagen' => '../img/MARIO_RICARDO_LOPEZ.jpg',
+                'imagen' => '../img/3.jpg',
                 'telefono' => '<i class="fa-solid fa-phone"></i> TEL: 2771212 Ext 9152-9172 ',
                 'correo' => '<i class="fa-solid fa-envelope"></i> Correo: <a href="mailto:vad@ut.edu.co" >vad@ut.edu.co</a>',
             ],
@@ -189,9 +189,9 @@ Propender por la vigencia del ethos universitario que se centra en la unidad en 
     ],
     5 => [
         'titulo' => 'Vicerrectoría de Investigación - Creación, Innovación, Extensión y Proyección Social',
-        'contenido' => '<b><i class="fa-solid fa-building-columns"></i></b><br><b><h5>Investigaciones</h5></b><br><p>La Vicerrectoría de Investigación-Creación, Innovación, Extensión y Proyección Social se encarga de fomentar el desarrollo de la investigación-creación, innovación, como insumo fundamental de difusión del conocimiento, saberes disciplinarios y profesionales, soportados en grupos de investigación y en el conocimiento que circula en los ámbitos de la sociedad y las comunidades académicas; la Extensión, que promueve la interacción e integración de la universidad con su entorno y la apropiación social del conocimiento y la Proyección Social que busca impactar diferentes sectores de la región y la comunidad.</p>',
+        'contenido' => '<div class="i1" style="text-align:center; width:100%;"><b><i class="fa-solid fa-building-columns" style="font-size:50px;"></i></b></div><br><b><h5>Investigaciones</h5></b><br><p>La Vicerrectoría de Investigación-Creación, Innovación, Extensión y Proyección Social se encarga de fomentar el desarrollo de la investigación-creación, innovación, como insumo fundamental de difusión del conocimiento, saberes disciplinarios y profesionales, soportados en grupos de investigación y en el conocimiento que circula en los ámbitos de la sociedad y las comunidades académicas; la Extensión, que promueve la interacción e integración de la universidad con su entorno y la apropiación social del conocimiento y la Proyección Social que busca impactar diferentes sectores de la región y la comunidad.</p>',
         'contenido1' => [
-            'texto' => '<b><i class="fa-solid fa-book-open"></i></i></b><br><b><h5>Nuestros servicios</h5></b><p>Servicios Investigaciones</p><ul><li><a href="#">Proyectos</a></li><li><a href="#">Semilleros</a></li><li><a href="#">Grupos de investigación</a></li><li><a href="#">Convocatorias</a></li><li><a href="#">Sello editorial</a></li><li><a href="#">Directorio de investigaciones</a></li> ',
+            'texto' => '<div class="i1" style="text-align:center; width:100%;"><b><i class="fa-solid fa-book-open" style="font-size:50px;"></i></b></div><br><b><h5>Nuestros servicios</h5></b><p>Servicios Investigaciones</p><ul><li><a href="#">Proyectos</a></li><li><a href="#">Semilleros</a></li><li><a href="#">Grupos de investigación</a></li><li><a href="#">Convocatorias</a></li><li><a href="#">Sello editorial</a></li><li><a href="#">Directorio de investigaciones</a></li></ul>',
             'lista' => [
 
 
@@ -242,87 +242,7 @@ $conn->close();
     <title>Introducción con Progreso</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://kit.fontawesome.com/472ee62007.js" crossorigin="anonymous"></script>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f5f5f5;
-        }
-
-        .container {
-            width: 80%;
-            margin: 20px auto;
-        }
-
-        .section {
-            display: none;
-            margin: 20px 0;
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .section.active {
-            display: block;
-        }
-
-        .progress-bar {
-            height: 25px;
-            background-color: #e0e0e0;
-            border-radius: 15px;
-            margin-bottom: 20px;
-            overflow: hidden;
-        }
-
-        .progress-bar div {
-            height: 100%;
-            background-color: #4caf50;
-            width: 0;
-            transition: width 0.5s;
-        }
-
-        .navigation {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .next-btn,
-        .prev-btn,
-        .final-btn {
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        .next-btn:disabled,
-        .prev-btn:disabled,
-        .final-btn:disabled {
-            background-color: #ccc;
-        }
-
-        .final-btn {
-            display: block;
-            background-color: #FF6666;
-            font-size: 18px;
-            margin-top: 20px;
-        }
-
-        .checkbox {
-            display: flex;
-            align-items: center;
-        }
-
-        .accepted {
-            color: green;
-            /* Color verde para las secciones aceptadas */
-        }
-    </style>
+    <link rel="stylesheet" href="../css/estilos_induccion.css">
 </head>
 
 <body>
@@ -330,7 +250,7 @@ $conn->close();
     <!-- Navbar de Bootstrap -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">Proyecto</a>
+        <a class="navbar-brand" href="#"><img src="../img/logo-ut.png" alt="" ></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
                 aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -351,6 +271,8 @@ $conn->close();
                         </ul>
                     </li>
                 </ul>
+                <a href="directorio1.php">Directorio</a>
+                <button id="logoutBtn" style="background-color: #FF6666; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; margin-left:60%;">Cerrar Sesión</button>
             </div>
         </div>
     </nav>
@@ -363,7 +285,7 @@ $conn->close();
         <?php foreach ($secciones as $numero => $seccion): ?>
             <div class="section" id="section<?php echo $numero; ?>">
                 <!-- Título de la sección -->
-                <h2><?php echo $seccion['titulo']; ?></h2>
+                <h2><b><?php echo $seccion['titulo']; ?></b></h2>
 
                 <!-- Contenido principal de la sección -->
                 <p><?php echo $seccion['contenido']; ?></p>
@@ -408,11 +330,11 @@ $conn->close();
                                         <?php endif; ?>
 
                                         <!-- Mostrar los datos del contacto -->
-                                        <br><i><b><?php echo $contacto['nombre']; ?></b></i><br>
+                                        <br><a><b><?php echo $contacto['nombre']; ?></b></a><br>
                                         <sub> <?php echo $contacto['cargo']; ?></sub><br>
-                                        <i><?php echo $contacto['telefono']; ?></i><br>
-                                        <i> <?php echo $contacto['correo']; ?></i><br>
-                                        <i>____________________________________________</i>
+                                        <a><?php echo $contacto['telefono']; ?></a><br>
+                                        <a> <?php echo $contacto['correo']; ?></a><br>
+                                        <a>____________________________________________</a>
 
 
                                     </li>
@@ -426,7 +348,7 @@ $conn->close();
                     <?php if (isset($seccion['video']) && !empty($seccion['video'])): ?>
                         <video width="640" height="360" controls>
                             <source src="<?php echo $seccion['video']; ?>" type="video/mp4">
-                            
+
                         </video>
                     <?php endif; ?>
 
@@ -545,6 +467,13 @@ $conn->close();
 
         // Mostrar la primera sección al cargar
         goToSection(currentSection);
+    </script>
+    <script>
+         document.getElementById('logoutBtn').addEventListener('click', function() {
+        fetch('logout.php', { method: 'POST' })
+            .then(response => response.json())
+            .then(() => { alert('Cerraste sesión.'); window.location.href = 'login.php'; });
+    });
     </script>
 </body>
 
