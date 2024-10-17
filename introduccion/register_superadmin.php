@@ -1,59 +1,32 @@
 <?php
 require 'db.php';
-session_start();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $nombre_usuario = $_POST['nombre_usuario'];
     $email = $_POST['email'];
-    $password = $_POST['password'];
+    $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+    $tipo_usuario_id = $_POST['tipo_usuario_id'];
 
-    $stmt = $conn->prepare("SELECT * FROM usuarios WHERE email = ?");
-    $stmt->bind_param("s", $email);
-    $stmt->execute();
-    $result = $stmt->get_result();
+    $stmt = $conn->prepare("INSERT INTO usuarios (nombre_usuario, email, password, tipo_usuario_id) VALUES (?, ?, ?, ?)");
+    $stmt->bind_param("sssi", $nombre_usuario, $email, $password, $tipo_usuario_id);
 
-    if ($result->num_rows == 1) {
-        $user = $result->fetch_assoc();
-        if (password_verify($password, $user['password'])) {
-            // Guardar datos del usuario en la sesión
-            $_SESSION['user_id'] = $user['id'];
-            $_SESSION['nombre_usuario'] = $user['nombre_usuario'];
-            $_SESSION['tipo_usuario_id'] = $user['tipo_usuario_id'];
-
-            // Obtener la actividad del usuario
-            $actividad = $user['actividad']; // Asegúrate de que este campo exista en la tabla 'usuarios'
-            $tp_user = $user['tipo_usuario_id'];
-            $nombre = $user['nombre_usuario'];
-
-            // Redirigir según la actividad
-            if (($actividad == 0) and ($tp_user == 2)) {
-                echo "<script>alert('Bienvenido, trabajador: $nombre'); window.location.href='index1.php';</script>";
-            } elseif (($actividad == 1) and ($tp_user == 2)) {
-                echo "<script>alert('Bienvenido, trabajador: $nombre'); window.location.href='index2.php';</script>";
-            } elseif (($actividad == 0) and ($tp_user == 1)) {
-                echo "<script>alert('Bienvenido, Administrador: $nombre'); window.location.href='index3.php';</script>";
-            } elseif (($actividad == 1) and ($tp_user == 1)) {
-                echo "<script>alert('Bienvenido, Administrador: $nombre'); window.location.href='index4.php';</script>";
-            }
-            else{
-                echo "<script>alert('Usuario inexistente'); window.location.href='login.php';</script>";   
-            }
-            exit();
-        } else {
-            echo "Contraseña incorrecta.";
-        }
+    if ($stmt->execute()) {
+        echo '<script type="text/javascript">
+        alert("Usuario registrado correctamente.");
+        window.location.href = "login.php";
+      </script>';
     } else {
-        echo "Usuario no encontrado.";
+        echo "Error al registrar el usuario.";
     }
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inicio de sesión</title>
+    <title>Registro</title>
     <style>
         .form {
             position: relative;
@@ -70,9 +43,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
         .form .thumbnail {
-
-            width: 250px;
-            height: auto;
+           
+            width: 200px;
+            
             margin: 0 auto 30px;
             padding: 50px 30px;
             border-top-left-radius: 100%;
@@ -205,9 +178,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             height: auto;
             transform: translateX(-50%) translateY(-50%);
         }
-
-        h2 {
-            color: #EF3B3A;
+        select{
+            visibility: hidden ;
         }
     </style>
 </head>
@@ -218,16 +190,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </div>
     </div>
     <div class="form">
-        <h2><b>Inicio de sesión</b></h2>
         <div class="thumbnail"><img src="../img/logo-ut.png" /></div>
-        <form class="login-form" method="post" action="">
+        <form class="login-form" method="post" action="" autocomplete="off" > 
+            <input type="text" name="nombre_usuario" placeholder="Nombre de usuario" required>
             <input type="email" name="email" placeholder="Correo electrónico" required>
             <input type="password" name="password" placeholder="Contraseña" required>
-            <button type="submit">Iniciar sesión</button>
-            <p class="message">¿No estas registrado?<a href="register.php">Crea una cuenta</a></p>
+            <select name="tipo_usuario_id" style="visibility: invisible;">
+                <option value="2">Empleado</option>
+            </select>
+            <button type="submit">Registrarse</button>
+            <p class="message">¿tienes cuenta?<a href="login.php">inicia sessión</a></p>
         </form>
     </div>
-
 </body>
 
 </html>

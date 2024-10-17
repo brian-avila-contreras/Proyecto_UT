@@ -11,6 +11,34 @@ if (!isset($_SESSION['user_id'])) {
 // Obtener el ID del usuario activo
 $userId = $_SESSION['user_id'];
 
+// Verificar el estado de actividad del usuario
+$query = "SELECT actividad FROM usuarios WHERE id = ?";
+$stmt = $conn->prepare($query);
+$stmt->bind_param("i", $userId);
+$stmt->execute();
+$stmt->bind_result($actividad);
+$stmt->fetch();
+$stmt->close();
+
+// Verificar el estado de actividad del usuario
+$query = "SELECT tipo_usuario_id FROM usuarios WHERE id = ?";
+$stmt = $conn->prepare($query);
+$stmt->bind_param("i", $userId);
+$stmt->execute();
+$stmt->bind_result($tp);
+$stmt->fetch();
+$stmt->close();
+
+
+if ($actividad == 1) {
+    echo "<script>alert('Usted ya realizó la lectura y aceptó las secciones. No puede acceder nuevamente a esta página.'); window.location.href = 'login.php';</script>";
+    exit();
+}
+if ($tp == 1) {
+    echo "<script>alert('Usted No puede acceder a esta pagina, su rol no es el de administrador'); window.location.href = 'login.php';</script>";
+    exit();
+}
+
 // Array con los títulos y contenidos personalizados para cada sección
 $secciones = [
     1 => [
@@ -203,33 +231,6 @@ Propender por la vigencia del ethos universitario que se centra en la unidad en 
     // Otras secciones aquí
 ];
 
-// Verificar el estado de actividad del usuario
-$query = "SELECT actividad FROM usuarios WHERE id = ?";
-$stmt = $conn->prepare($query);
-$stmt->bind_param("i", $userId);
-$stmt->execute();
-$stmt->bind_result($actividad);
-$stmt->fetch();
-$stmt->close();
-
-$query = "SELECT tipo_usuario_id FROM usuarios WHERE id = ?";
-$stmt = $conn->prepare($query);
-$stmt->bind_param("i", $userId);
-$stmt->execute();
-$stmt->bind_result($tp);
-$stmt->fetch();
-$stmt->close();
-
-
-if ($actividad == 0) {
-    echo "<script>alert('Usted ya realizó la lectura y aceptó las secciones. No puede acceder nuevamente a esta página.'); window.location.href = 'login.php';</script>";
-    exit();
-}
-if ($tp == 1) {
-    echo "<script>alert('Usted No puede acceder a esta pagina, su rol no es el de administrador'); window.location.href = 'login.php';</script>";
-    exit();
-}
-
 // Verificar si el usuario ya ha aceptado secciones y modificar la estructura de $secciones
 $query = "SELECT seccion_id FROM secciones_aceptadas WHERE usuario_id = ?";
 $stmt = $conn->prepare($query);
@@ -254,6 +255,7 @@ $conn->close();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Introducción con Progreso</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/472ee62007.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="../css/estilos_induccion.css">
 </head>
 
@@ -283,7 +285,7 @@ $conn->close();
                         </ul>
                     </li>
                 </ul>
-                <a href="directorio2.php">Directorio</a>
+                <a href="directorio1.php">Directorio</a>
                 <button id="logoutBtn"
                     style="background-color: #FF6666; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; margin-left:60%;">Cerrar
                     Sesión</button>
@@ -292,14 +294,14 @@ $conn->close();
     </nav>
 
     <div class="container">
-        <div class="progress-bar progress-bar-striped bg-danger">
+        <div class="progress-bar">
             <div id="progress"></div>
         </div>
 
         <?php foreach ($secciones as $numero => $seccion): ?>
             <div class="section" id="section<?php echo $numero; ?>">
                 <!-- Título de la sección -->
-                <h2><?php echo $seccion['titulo']; ?></h2>
+                <h2><b><?php echo $seccion['titulo']; ?></b></h2>
 
                 <!-- Contenido principal de la sección -->
                 <p><?php echo $seccion['contenido']; ?></p>
@@ -344,11 +346,11 @@ $conn->close();
                                         <?php endif; ?>
 
                                         <!-- Mostrar los datos del contacto -->
-                                        <br><i><b><?php echo $contacto['nombre']; ?></b></i><br>
+                                        <br><a><b><?php echo $contacto['nombre']; ?></b></a><br>
                                         <sub> <?php echo $contacto['cargo']; ?></sub><br>
-                                        <i><?php echo $contacto['telefono']; ?></i><br>
-                                        <i> <?php echo $contacto['correo']; ?></i><br>
-                                        <i>____________________________________________</i>
+                                        <a><?php echo $contacto['telefono']; ?></a><br>
+                                        <a> <?php echo $contacto['correo']; ?></a><br>
+                                        <a>____________________________________________</a>
 
 
                                     </li>
@@ -368,26 +370,24 @@ $conn->close();
 
                 <?php endif; ?>
 
+                <!-- Checkbox de aceptación -->
                 <div class="checkbox">
                     <input type="checkbox" id="accept<?php echo $numero; ?>" class="accept-checkbox"
-                        data-section="<?php echo $numero; ?>" checked disabled>
+                        data-section="<?php echo $numero; ?>" <?php echo in_array($numero, $seccionesAceptadas) ? 'checked disabled' : ''; ?>>
                     <label for="accept<?php echo $numero; ?>"
-                        class="<?php echo in_array($numero, $seccionesAceptadas) ? 'accepted' : ''; ?>">
-                        Ya has leído y aceptado esta sección
-                    </label>
+                        class="<?php echo in_array($numero, $seccionesAceptadas) ? 'accepted' : ''; ?>">He leído y acepto
+                        esta sección</label>
                 </div>
             </div>
         <?php endforeach; ?>
 
 
-
         <div class="navigation">
             <button class="prev-btn" id="prevBtn" disabled>Anterior</button>
-            <button class="next-btn" id="nextBtn" onclick="nextSection()">Siguiente</button>
+            <button class="next-btn" id="nextBtn" disabled>Siguiente</button>
         </div>
 
-        <button class="final-btn" id="finalBtn" onclick="location.href='realizar_induccion.php'">Realizar
-            Inducción</button>
+        <button class="final-btn" id="finalBtn" disabled>Aceptar Todo</button>
     </div>
 
     <!-- Agregar Bootstrap JS -->
@@ -395,66 +395,102 @@ $conn->close();
 
     <script>
         let currentSection = 1;
-        const totalSections = 8;
+        const totalSections = <?php echo count($secciones); ?>; // Total de secciones
         const progress = document.getElementById('progress');
         const nextBtn = document.getElementById('nextBtn');
         const prevBtn = document.getElementById('prevBtn');
+        const finalBtn = document.getElementById('finalBtn');
+        const checkboxes = document.querySelectorAll('.accept-checkbox');
 
         function goToSection(section) {
             document.querySelectorAll('.section').forEach((el) => el.classList.remove('active'));
             document.getElementById('section' + section).classList.add('active');
             currentSection = section;
 
+            updateProgressBar();
             updateButtonStates();
         }
 
-        function nextSection() {
-            if (currentSection < totalSections) {
-                goToSection(currentSection + 1);
-            }
-        }
-
-        // Agregar la función para retroceder a la sección anterior
-        function prevSection() {
-            if (currentSection > 1) {
-                goToSection(currentSection - 1);
-            }
+        function updateProgressBar() {
+            const acceptedSections = Array.from(checkboxes).filter(checkbox => checkbox.checked).length;
+            const progressPercentage = (acceptedSections / totalSections) * 100;
+            progress.style.width = progressPercentage + '%';
         }
 
         function updateButtonStates() {
             prevBtn.disabled = currentSection === 1;
-            nextBtn.disabled = currentSection === totalSections;
+
+            // Habilitar el botón "Siguiente" solo si la sección actual está aceptada
+            const currentCheckbox = document.getElementById('accept' + currentSection);
+            nextBtn.disabled = !currentCheckbox.checked || currentSection === totalSections;
+
+            // El botón "Finalizar" se habilita solo si todas las secciones están aceptadas
+            finalBtn.disabled = !Array.from(checkboxes).every(checkbox => checkbox.checked);
         }
 
-        // Iniciar mostrando la primera sección
-        goToSection(currentSection);
-
-        // Actualizar la barra de progreso a 100%
-        progress.style.width = '100%';
-        progress.innerText = "¡Has completado la introducción!";
-
-        // Asignar la función de retroceso al botón de "Anterior"
-        prevBtn.addEventListener('click', prevSection);
-
-        // Redirigir a 'realizar_induccion.php' al hacer clic en "Realizar Inducción"
-        document.getElementById('finalBtn').addEventListener('click', () => {
-            const checkboxes = document.querySelectorAll('.accept-checkbox');
-            let allAccepted = true;
-            checkboxes.forEach(checkbox => {
-                if (!checkbox.checked) {
-                    allAccepted = false;
+        // Manejar los clics en los checkboxes
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', (e) => {
+                const section = e.target.dataset.section;
+                if (e.target.checked) {
+                    // Marcar la sección como aceptada
+                    e.target.setAttribute('disabled', true);
+                    saveAcceptedSection(section);
                 }
+                updateProgressBar();
+                updateButtonStates();
             });
+        });
 
-            if (allAccepted) {
-                window.location.href = 'realizar_induccion.php'; // Redirigir si todas las secciones están aceptadas
-            } else {
-                alert('Debes aceptar todas las secciones antes de continuar.');
+        // Función para guardar la sección aceptada en la base de datos (placeholder para la lógica de PHP)
+        function saveAcceptedSection(section) {
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', 'save_section.php', true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.onload = function () {
+                if (this.status === 200) {
+                    console.log('Sección guardada:', section);
+                }
+            };
+            xhr.send('section=' + section + '&user_id=<?php echo $userId; ?>');
+        }
+
+        nextBtn.addEventListener('click', () => {
+            if (currentSection < totalSections) {
+                goToSection(currentSection + 1);
             }
         });
+
+        prevBtn.addEventListener('click', () => {
+            if (currentSection > 1) {
+                goToSection(currentSection - 1);
+            }
+        });
+
+        finalBtn.addEventListener('click', () => {
+            // Actualizar la actividad del usuario a 1
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', 'update_activity.php', true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.onload = function () {
+                if (this.status === 200) {
+                    alert('Gracias por leer y aceptar la introducción básica, Debe volver a iniciar sesión.');
+                    window.location.href = 'login.php'; // Redirigir a logout
+                }
+            };
+            xhr.send('user_id=<?php echo $userId; ?>');
+        });
+
+        // Mostrar la primera sección al cargar
+        goToSection(currentSection);
     </script>
-
-
+    <script>
+        document.getElementById('logoutBtn').addEventListener('click', function () {
+            fetch('logout.php', { method: 'POST' })
+                .then(response => response.json())
+                .then(() => { alert('Cerraste sesión.'); window.location.href = 'login.php'; });
+        });
+    </script>
 </body>
 
 </html>

@@ -212,6 +212,7 @@ $stmt->bind_result($actividad);
 $stmt->fetch();
 $stmt->close();
 
+// Si la actividad es 0, redirigir a login.php
 $query = "SELECT tipo_usuario_id FROM usuarios WHERE id = ?";
 $stmt = $conn->prepare($query);
 $stmt->bind_param("i", $userId);
@@ -225,10 +226,11 @@ if ($actividad == 0) {
     echo "<script>alert('Usted ya realizó la lectura y aceptó las secciones. No puede acceder nuevamente a esta página.'); window.location.href = 'login.php';</script>";
     exit();
 }
-if ($tp == 1) {
+if ($tp == 2) {
     echo "<script>alert('Usted No puede acceder a esta pagina, su rol no es el de administrador'); window.location.href = 'login.php';</script>";
     exit();
 }
+
 
 // Verificar si el usuario ya ha aceptado secciones y modificar la estructura de $secciones
 $query = "SELECT seccion_id FROM secciones_aceptadas WHERE usuario_id = ?";

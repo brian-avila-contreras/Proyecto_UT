@@ -20,10 +20,24 @@ $stmt->bind_result($actividad);
 $stmt->fetch();
 $stmt->close();
 
+$query = "SELECT tipo_usuario_id FROM usuarios WHERE id = ?";
+$stmt = $conn->prepare($query);
+$stmt->bind_param("i", $userId);
+$stmt->execute();
+$stmt->bind_result($tp);
+$stmt->fetch();
+$stmt->close();
+
+
 if ($actividad == 1) {
     echo "<script>alert('Usted ya realizó la lectura y aceptó las secciones. No puede acceder nuevamente a esta página.'); window.location.href = 'login.php';</script>";
     exit();
 }
+if ($tp == 2) {
+    echo "<script>alert('Usted No puede acceder a esta pagina, su rol no es el de administrador'); window.location.href = 'login.php';</script>";
+    exit();
+}
+
 
 // Array con los títulos y contenidos personalizados para cada sección
 $secciones = [
