@@ -1,5 +1,28 @@
 <?php
-require 'db.php';
+session_start();
+require 'db.php'; // Conectar a la base de datos
+
+// Verificar si el usuario ha iniciado sesión
+if (!isset($_SESSION['user_id'])) {
+    header('Location: login.php'); // Redirigir a la página de inicio de sesión
+    exit();
+}
+
+// Obtener el ID del usuario activo
+$userId = $_SESSION['user_id'];
+
+$query = "SELECT tipo_usuario_id FROM usuarios WHERE id = ?";
+$stmt = $conn->prepare($query);
+$stmt->bind_param("i", $userId);
+$stmt->execute();
+$stmt->bind_result($tp);
+$stmt->fetch();
+$stmt->close();
+
+if (($tp < 3) or ($tp > 3)) {
+    echo "<script>alert('Usted No puede acceder a esta pagina, su rol no es el de  super administrador'); window.location.href = 'login.php';</script>";
+    exit();
+}
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $nombre_usuario = $_POST['nombre_usuario'];
@@ -43,9 +66,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
         .form .thumbnail {
-           
+
             width: 200px;
-            
+
             margin: 0 auto 30px;
             padding: 50px 30px;
             border-top-left-radius: 100%;
@@ -178,8 +201,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             height: auto;
             transform: translateX(-50%) translateY(-50%);
         }
-        select{
-            visibility: hidden ;
+
+        select {
+            visibility: hidden;
         }
     </style>
 </head>
@@ -191,12 +215,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </div>
     <div class="form">
         <div class="thumbnail"><img src="../img/logo-ut.png" /></div>
-        <form class="login-form" method="post" action="" autocomplete="off" > 
+        <form class="login-form" method="post" action="" autocomplete="off">
             <input type="text" name="nombre_usuario" placeholder="Nombre de usuario" required>
             <input type="email" name="email" placeholder="Correo electrónico" required>
             <input type="password" name="password" placeholder="Contraseña" required>
-            <select name="tipo_usuario_id" style="visibility: invisible;">
+            <select name="tipo_usuario_id">
+                <option value="1">Admin</option>
                 <option value="2">Empleado</option>
+                <option value="3">superadmin</option>
             </select>
             <button type="submit">Registrarse</button>
             <p class="message">¿tienes cuenta?<a href="login.php">inicia sessión</a></p>

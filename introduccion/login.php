@@ -34,6 +34,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             } elseif (($actividad == 1) and ($tp_user == 1)) {
                 echo "<script>alert('Bienvenido, Administrador: $nombre'); window.location.href='index4.php';</script>";
             }
+            elseif (($actividad== 0) or ($actividad==1) and ($tp_user==3)) {
+                echo "<script>alert('Bienvenido, Super Administrador: $nombre'); window.location.href='index_sa.php';</script>";
+
+            }
             else{
                 echo "<script>alert('Usuario inexistente'); window.location.href='login.php';</script>";   
             }
