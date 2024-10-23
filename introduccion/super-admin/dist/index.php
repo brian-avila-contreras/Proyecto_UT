@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once '../../db.php';
+
 if (!isset($_SESSION['user_id'])) {
   header('Location: ../../login.php'); // Redirigir a la página de inicio de sesión
   exit();
@@ -9,46 +10,83 @@ if (!isset($_SESSION['user_id'])) {
 // Obtener el ID del usuario activo
 $userId = $_SESSION['user_id'];
 
-// Verificar el estado de actividad del usuario
+// Verificar el estado de actividad del usuario (solo superadministrador puede acceder)
 $query = "SELECT tipo_usuario_id FROM usuarios WHERE id = ?";
 $stmt = $conn->prepare($query);
 $stmt->bind_param("i", $userId);
 $stmt->execute();
-$stmt->bind_result($tp);
+$stmt->bind_result($tipoUsuario);
 $stmt->fetch();
 $stmt->close();
 
-if (($tp < 3) or ($tp > 3)) {
-  echo "<script>alert('Usted No puede acceder a esta pagina, su rol no es el de Super administrador'); window.location.href = 'login.php';</script>";
+if ($tipoUsuario != 3) {
+  echo "<script>alert('Usted no puede acceder a esta página, su rol no es el de Super Administrador.'); window.location.href = '../../login.php';</script>";
   exit();
 }
+
+// Determinar el saludo basado en el tipo de usuario
+switch ($tipoUsuario) {
+  case 1:
+    $saludoTipoUsuario = "Administrador";
+    break;
+  case 2:
+    $saludoTipoUsuario = "Empleado";
+    break;
+  case 3:
+    $saludoTipoUsuario = "Super Administrador";
+    break;
+  case 4:
+    $saludoTipoUsuario = "Director de Dependencia";
+    break;
+  default:
+    $saludoTipoUsuario = "Usuario";
+    break;
+}
+
+// Consulta SQL para contar el número total de usuarios y dependencias
 $sqlUsuarios = "SELECT COUNT(*) AS total_usuarios FROM usuarios";
 $resultUsuarios = $conn->query($sqlUsuarios);
 $totalUsuarios = $resultUsuarios ? $resultUsuarios->fetch_assoc()['total_usuarios'] : 0;
 
-// Contar el número de dependencias
 $sqlDependencias = "SELECT COUNT(*) AS total_dependencias FROM dependencia";
 $resultDependencias = $conn->query($sqlDependencias);
 $totalDependencias = $resultDependencias ? $resultDependencias->fetch_assoc()['total_dependencias'] : 0;
-// Consulta SQL para obtener los usuarios y sus detalles
-$sql = "SELECT u.id, u.nombre_usuario, d.nombre_dependencia, e.titulo, u.actividad
+
+// Consulta SQL para obtener los usuarios, dependencias, evaluaciones y estado de actividad
+$sql = "SELECT u.id, u.nombre_usuario, 
+               IFNULL(d.nombre_dependencia, 'Sin dependencia') AS nombre_dependencia, 
+               IFNULL(e.titulo, 'Sin evaluación') AS titulo_evaluacion, 
+               u.actividad
         FROM usuarios u
         LEFT JOIN dependencia d ON u.id_dependencia = d.id
-        LEFT JOIN evaluaciones e ON e.dependencia_id = d.id"; // Cambiar la relación según lo necesario
+        LEFT JOIN evaluaciones e ON e.dependencia_id = d.id"; // Asegúrate de que esta relación sea correcta
 
 // Ejecutar la consulta
 $result = $conn->query($sql);
 
-// Verificar si hay resultados
+// Almacenar los usuarios en un array
 $users = [];
 if ($result && $result->num_rows > 0) {
-  // Almacenar los resultados en un array
   while ($row = $result->fetch_assoc()) {
     $users[] = $row;
   }
+} else {
+  echo "No se encontraron usuarios.";
 }
 
-// Cerrar la conexión
+date_default_timezone_set('America/Bogota');
+
+// Obtener la hora actual
+$horaActual = date('g:i A'); // Formato 12 horas con AM/PM
+
+// Determinar el saludo basado en la hora
+if (date('H') < 12) {
+  $saludo = "Buenos días";
+} elseif (date('H') < 18) {
+  $saludo = "Buenas tardes";
+} else {
+  $saludo = "Buenas noches";
+}
 $conn->close();
 ?>
 <!DOCTYPE html>
@@ -77,6 +115,7 @@ $conn->close();
   <link rel="stylesheet" href="assets/css/style.css">
   <!-- endinject -->
   <link rel="shortcut icon" href="assets/images/favicon.png" />
+
 </head>
 
 <body class="with-welcome-text">
@@ -104,17 +143,24 @@ $conn->close();
         </div>
       </div>
       <div class="navbar-menu-wrapper d-flex align-items-top">
-        <ul class="navbar-nav">
-          <li class="nav-item fw-semibold d-none d-lg-block ms-0">
-            <h1 class="welcome-text">Good Morning, <span class="text-black fw-bold">John Doe</span></h1>
-            <h3 class="welcome-sub-text">Your performance summary this week </h3>
-          </li>
-        </ul>
+      <ul class="navbar-nav">
+  <li class="nav-item fw-semibold d-none d-lg-block ms-0">
+    <h1 class="welcome-text">
+      <?= htmlspecialchars($saludo) ?>, <span><?= htmlspecialchars($saludoTipoUsuario) ?></span>
+      <?php if (!empty($users)) { ?>
+        <span><?= htmlspecialchars($users[0]['nombre_usuario']) ?></span>
+      <?php } ?>
+      <span><?= htmlspecialchars($horaActual) ?></span> <!-- Muestra la hora actual -->
+    </h1>
+    <h3 class="welcome-sub-text">Your performance summary this week</h3>
+  </li>
+</ul>
+
         <ul class="navbar-nav ms-auto">
 
           <li class="nav-item dropdown d-none d-lg-block user-dropdown">
             <a class="nav-link" id="UserDropdown" href="#" data-bs-toggle="dropdown" aria-expanded="false">
-              <img class="img-xs rounded-circle" src="../../../img/user.png" alt="Profile image"> </a>
+              <img class="img-xs rounded-circle" src="../../../img/users-gear-solid.svg" alt="Profile image"> </a>
             <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
               <div class="dropdown-header text-center">
                 <img class="img-md rounded-circle" src="assets/images/faces/face8.jpg" alt="Profile image">
@@ -294,9 +340,9 @@ $conn->close();
                                           <td>
                                             <div class="btn-group" role="group">
                                               <a href="editar.php?id=<?= $user['id'] ?>"
-                                                class="btn btn-primary">Editar</a>
+                                                class="btn btn-primary" id="edit" >Editar</a>
                                               <a href="eliminar.php?id=<?= $user['id'] ?>"
-                                                class="btn btn-danger">Eliminar</a>
+                                                class="btn btn-danger" id="delete" style="background-color:  #eb4947; color: #fff; border: 1px solid white;" >Eliminar</a>
                                             </div>
                                           </td>
                                         </tr>
