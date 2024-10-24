@@ -189,22 +189,17 @@ $conn->close();
       <nav class="sidebar sidebar-offcanvas" id="sidebar">
         <ul class="nav">
           <li class="nav-item">
-            <a class="nav-link" href="index.html">
-              <i class="mdi mdi-grid-large menu-icon"></i>
-              <span class="menu-title">Dashboard</span>
-            </a>
-          </li>
-
-          <li class="nav-item">
             <a class="nav-link" data-bs-toggle="collapse" href="#form-elements" aria-expanded="false"
               aria-controls="form-elements">
-              <i class="menu-icon mdi mdi-card-text-outline"></i>
-              <span class="menu-title">Form elements</span>
+              <i class="menu-icon fa-solid fa-hotel"></i>
+              
+              <span class="menu-title">Dependencias.</span>
               <i class="menu-arrow"></i>
             </a>
             <div class="collapse" id="form-elements">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"><a class="nav-link" href="pages/forms/basic_elements.html">Basic Elements</a></li>
+                <li class="nav-item"><a class="nav-link" href="pages/forms/basic_elements.html">Nueva dependencia</a></li>
+                <li class="nav-item"><a class="nav-link" href="pages/forms/basic_elements.html">Todas las dependencias</a></li>
               </ul>
             </div>
           </li>
@@ -276,16 +271,17 @@ $conn->close();
                               <div class="card-body">
                                 <div class="d-sm-flex justify-content-between align-items-start">
                                   <div id="add">
-                                    <div id="add1"> <a type="button" href=""><i class="mdi mdi-account-plus"></i>Añadir
+                                    <div id="add1"><a href=""><i class="mdi mdi-account-plus"></i> Añadir
                                         usuario</a>
                                     </div>
-                                    <div id="add1"><a type="button" href=""><i class="mdi mdi-account-plus"></i>Añadir
+                                    <div id="add1"><a href=""><i class="fa-solid fa-building-user"></i> Añadir
                                         Dependencia</a>
                                     </div>
-                                    <div id="add1"> <a type="button" href=""><i class="mdi mdi-account-plus"></i>Ver
+                                    <div id="add1"><a href=""><i class="fa-solid fa-users-viewfinder"></i> Ver
                                         todos los
                                         usuarios</a></div>
-                                    <div id="add1"> <a type="button" href=""><i class="mdi mdi-account-plus"></i>Ver
+                                    <div id="add1"><a href=""><i class="fa-solid fa-building-circle-arrow-right"></i>
+                                        Ver
                                         todas las
                                         Dependencias</a></div>
                                   </div>

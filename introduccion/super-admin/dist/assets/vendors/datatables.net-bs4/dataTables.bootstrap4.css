@@ -126,7 +126,7 @@ div.dataTables_processing > div:last-child > div {
   width: 13px;
   height: 13px;
   border-radius: 50%;
-  background: rgb(2, 117, 216);
+  background:#eb4947;
   background: rgb(var(--dt-row-selected));
   animation-timing-function: cubic-bezier(0, 1, 1, 0);
 }
@@ -280,7 +280,7 @@ table.dataTable > tbody > tr {
   background-color: transparent;
 }
 table.dataTable > tbody > tr.selected > * {
-  box-shadow: inset 0 0 0 9999px rgb(2, 117, 216);
+  box-shadow: inset 0 0 0 9999px#eb4947;
   box-shadow: inset 0 0 0 9999px rgb(var(--dt-row-selected));
   color: rgb(255, 255, 255);
   color: rgb(var(--dt-row-selected-text));
@@ -293,14 +293,14 @@ table.dataTable.table-striped > tbody > tr.odd > * {
   box-shadow: inset 0 0 0 9999px rgba(var(--dt-row-stripe), 0.05);
 }
 table.dataTable.table-striped > tbody > tr.odd.selected > * {
-  box-shadow: inset 0 0 0 9999px rgba(2, 117, 216, 0.95);
+  box-shadow: inset 0 0 0 9999px#eb4947;
   box-shadow: inset 0 0 0 9999px rgba(var(--dt-row-selected), 0.95);
 }
 table.dataTable.table-hover > tbody > tr:hover > * {
   box-shadow: inset 0 0 0 9999px rgba(var(--dt-row-hover), 0.075);
 }
 table.dataTable.table-hover > tbody > tr.selected:hover > * {
-  box-shadow: inset 0 0 0 9999px rgba(2, 117, 216, 0.975);
+  box-shadow: inset 0 0 0 9999px #eb4947;
   box-shadow: inset 0 0 0 9999px rgba(var(--dt-row-selected), 0.975);
 }
 

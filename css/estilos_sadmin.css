@@ -80,15 +80,29 @@
     border: 1px solid #eb4947;
     color: #eb4947;
 }
-#add1{
+
+#add1 {
     background-color: rgb(235, 73, 71);
     text-align: center;
     padding: 5px;
     border-radius: 10px;
     color: #ffffff;
     transition: all 0.3s ease-out;
-    border: 1px solid #ffffff;  
+    border: 1px solid #ffffff;
 }
+
+#add a {
+    color: #fff;
+    text-decoration: none;
+
+}
+
+#add1:hover a {
+    transition: all 0.3s ease-out;
+    color: #eb4947;
+
+}
+
 #add1:hover {
     background-color: white;
     transition: all 0.3s ease-out;
@@ -97,9 +111,89 @@
 
 }
 
-#add{
+#add {
     display: flex;
     justify-content: space-around;
     align-items: center;
     width: 100%;
+}
+
+.nav-item {
+    color: #eb4947;
+}
+
+/* Estilo general para la barra lateral */
+.sidebar {
+    background-color: #f8f9fa;
+}
+
+/* Estilo para los enlaces de navegación */
+.nav-link {
+    color: #333;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.nav-link:hover {
+    background-color: #ff6666;
+    color: #fff;
+}
+
+/* Estilo para el texto y el icono */
+.menu-title,
+.menu-icon {
+    transition: color 0.3s;
+}
+
+/* Estilo para el menú activo */
+.nav-link.active {
+    background-color: #ff6666;
+    color: #fff;
+}
+
+/* Cambia el color del texto cuando está activo o en hover */
+.nav-link.active .menu-title,
+.nav-link.active .menu-icon,
+.nav-link:hover .menu-title,
+.nav-link:hover .menu-icon {
+    color: #fff;
+}
+
+/* Estilos específicos para cada sección */
+#dependencias .nav-link {
+    background-color: transparent;
+}
+
+#dependencias .nav-link.active {
+    background-color: #ff6666;
+}
+
+#tables .nav-link {
+    background-color: transparent;
+}
+
+#tables .nav-link.active {
+    background-color: #ff6666;
+}
+
+#user-pages .nav-link {
+    background-color: transparent;
+}
+
+#user-pages .nav-link.active {
+    background-color: #ff6666;
+}
+
+/* Estilo para los submenús */
+.sub-menu .nav-link {
+    padding-left: 30px;
+    color: #666;
+}
+
+.sub-menu .nav-link:hover {
+    background-color: #ff6666;
+    color: #fff;
 }
