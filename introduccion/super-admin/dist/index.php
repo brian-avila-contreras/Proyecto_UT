@@ -186,53 +186,72 @@ $conn->close();
     <!-- partial -->
     <div class="container-fluid page-body-wrapper">
       <!-- partial:partials/_sidebar.html -->
-      <nav class="sidebar sidebar-offcanvas" id="sidebar">
+      <nav class="sidebar sidebar-offcanvas" id="sidebar" style="background-color: #f8f9fa;">
         <ul class="nav">
-          <li class="nav-item">
+          <!-- Sección Dependencias -->
+          <li class="nav-item" id="dependencias">
             <a class="nav-link" data-bs-toggle="collapse" href="#form-elements" aria-expanded="false"
-              aria-controls="form-elements">
-              <i class="menu-icon fa-solid fa-hotel"></i>
-              
-              <span class="menu-title">Dependencias.</span>
-              <i class="menu-arrow"></i>
+              aria-controls="form-elements" style="color: #333;">
+              <i class="menu-icon fa-solid fa-hotel" style="color: #333;"></i>
+              <span class="menu-title" style="color: #333;">Dependencias</span>
+              <i class="menu-arrow" style="color: #333;"></i>
             </a>
             <div class="collapse" id="form-elements">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"><a class="nav-link" href="pages/forms/basic_elements.html">Nueva dependencia</a></li>
-                <li class="nav-item"><a class="nav-link" href="pages/forms/basic_elements.html">Todas las dependencias</a></li>
+                <li class="nav-item"><a class="nav-link" href="pages/forms/basic_elements.html"
+                    style="color: #333;">Nueva dependencia</a></li>
+                <li class="nav-item"><a class="nav-link" href="pages/forms/basic_elements.html"
+                    style="color: #333;">Todas las dependencias</a></li>
               </ul>
             </div>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="collapse" href="#tables" aria-expanded="false" aria-controls="tables">
-              <i class="menu-icon mdi mdi-table"></i>
-              <span class="menu-title">Tables</span>
-              <i class="menu-arrow"></i>
-            </a>
-            <div class="collapse" id="tables">
-              <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="pages/tables/basic-table.html">Basic table</a></li>
-              </ul>
-            </div>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
-              <i class="menu-icon mdi mdi-account-circle-outline"></i>
-              <span class="menu-title">User Pages</span>
-              <i class="menu-arrow"></i>
+
+          <!-- Sección User Pages -->
+          <li class="nav-item" id="user-pages">
+            <a class="nav-link" data-bs-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth"
+              style="color: #333;">
+              <i class="menu-icon mdi mdi-account-circle-outline" style="color: #333;"></i>
+              <span class="menu-title" style="color: #333;">User Pages</span>
+              <i class="menu-arrow" style="color: #333;"></i>
             </a>
             <div class="collapse" id="auth">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="pages/samples/blank-page.html"> Blank Page </a></li>
-                <li class="nav-item"> <a class="nav-link" href="pages/samples/error-404.html"> 404 </a></li>
-                <li class="nav-item"> <a class="nav-link" href="pages/samples/error-500.html"> 500 </a></li>
-                <li class="nav-item"> <a class="nav-link" href="pages/samples/login.html"> Login </a></li>
-                <li class="nav-item"> <a class="nav-link" href="pages/samples/register.html"> Register </a></li>
+                <li class="nav-item"><a class="nav-link" href="pages/samples/blank-page.html" style="color: #333;">Blank
+                    Page</a></li>
+                <li class="nav-item"><a class="nav-link" href="pages/samples/error-404.html"
+                    style="color: #333;">404</a></li>
+                <li class="nav-item"><a class="nav-link" href="pages/samples/error-500.html"
+                    style="color: #333;">500</a></li>
+                <li class="nav-item"><a class="nav-link" href="pages/samples/login.html" style="color: #333;">Login</a>
+                </li>
+                <li class="nav-item"><a class="nav-link" href="pages/samples/register.html"
+                    style="color: #333;">Register</a></li>
+              </ul>
+            </div>
+          </li>
+
+          <!-- Sección Tablas de Información -->
+          <li class="nav-item" id="tablas-informacion">
+            <a class="nav-link" data-bs-toggle="collapse" href="#info-tables" aria-expanded="false"
+              aria-controls="info-tables" style="color: #333;">
+              <i class="menu-icon mdi mdi-table" style="color: #333;"></i>
+              <span class="menu-title" style="color: #333;">Informacíon</span>
+              <i class="menu-arrow" style="color: #333;"></i>
+            </a>
+            <div class="collapse" id="info-tables">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item"><a class="nav-link" href="pages/tables/info-table1.html" style="color: #333;">Tabla
+                    1</a></li>
+                <li class="nav-item"><a class="nav-link" href="pages/tables/info-table2.html" style="color: #333;">Tabla
+                    2</a></li>
+                <li class="nav-item"><a class="nav-link" href="pages/tables/info-table3.html" style="color: #333;">Tabla
+                    3</a></li>
               </ul>
             </div>
           </li>
         </ul>
       </nav>
+
       <!-- partial -->
       <div class="main-panel">
         <div class="content-wrapper">
@@ -414,6 +433,26 @@ $conn->close();
   <script src="assets/js/dashboard.js"></script>
   <!-- <script src="assets/js/Chart.roundedBarCharts.js"></script> -->
   <!-- End custom js for this page-->
+  <script>
+    // Cambiar el color de texto e íconos a rojo cuando el elemento está activo
+    document.querySelectorAll('.nav-link').forEach(link => {
+      link.addEventListener('click', function () {
+        // Resetear colores de todos los enlaces
+        document.querySelectorAll('.nav-link').forEach(l => {
+          l.style.color = '#333';
+          l.querySelectorAll('i').forEach(icon => {
+            icon.style.color = '#333';
+          });
+        });
+
+        // Cambiar colores al enlace activo
+        this.style.color = 'red';
+        this.querySelectorAll('i').forEach(icon => {
+          icon.style.color = 'red';
+        });
+      });
+    });
+  </script>
   <script>
     document.getElementById('logoutBtn').addEventListener('click', function () {
       fetch('../../logout.php', { method: 'POST' })
