@@ -19,6 +19,14 @@ $stmt->bind_result($tipoUsuario);
 $stmt->fetch();
 $stmt->close();
 
+$query = "SELECT email FROM usuarios WHERE id = ?";
+$stmt = $conn->prepare($query);
+$stmt->bind_param("s", $userId);
+$stmt->execute();
+$stmt->bind_result($email);
+$stmt->fetch();
+$stmt->close();
+
 if ($tipoUsuario != 3) {
   echo "<script>alert('Usted no puede acceder a esta página, su rol no es el de Super Administrador.'); window.location.href = '../../login.php';</script>";
   exit();
@@ -106,6 +114,7 @@ $conn->close();
   <link rel="stylesheet" href="assets/vendors/simple-line-icons/css/simple-line-icons.css">
   <link rel="stylesheet" href="assets/vendors/css/vendor.bundle.base.css">
   <link rel="stylesheet" href="assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css">
+  <script src="https://kit.fontawesome.com/472ee62007.js" crossorigin="anonymous"></script>
   <!-- endinject -->
   <!-- Plugin css for this page -->
   <link rel="stylesheet" href="assets/vendors/datatables.net-bs4/dataTables.bootstrap4.css">
@@ -115,16 +124,13 @@ $conn->close();
   <link rel="stylesheet" href="assets/css/style.css">
   <!-- endinject -->
   <link rel="shortcut icon" href="assets/images/favicon.png" />
+  <link rel="stylesheet" href="../../../css/estilos_sadmin.css">
 
 </head>
 
 <body class="with-welcome-text">
   <div class="container-scroller">
-    <div class="row p-0 m-0 proBanner" id="proBanner">
-      <div class="col-md-12 p-0 m-0">
 
-      </div>
-    </div>
     <!-- partial:partials/_navbar.html -->
     <nav class="navbar default-layout col-lg-12 col-12 p-0 fixed-top d-flex align-items-top flex-row">
       <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-start">
@@ -135,39 +141,39 @@ $conn->close();
         </div>
         <div>
           <a class="navbar-brand brand-logo" href="index.html">
-            <img src="assets/images/logo.svg" alt="logo" />
+            <img src="../../../img/logo-ut.png" alt="logo" />
           </a>
           <a class="navbar-brand brand-logo-mini" href="index.html">
-            <img src="assets/images/logo-mini.svg" alt="logo" />
+            <img src="../../../img/ut.png" alt="logo" />
           </a>
         </div>
       </div>
       <div class="navbar-menu-wrapper d-flex align-items-top">
-      <ul class="navbar-nav">
-  <li class="nav-item fw-semibold d-none d-lg-block ms-0">
-    <h1 class="welcome-text">
-      <?= htmlspecialchars($saludo) ?>, <span><?= htmlspecialchars($saludoTipoUsuario) ?></span>
-      <?php if (!empty($users)) { ?>
-        <span><?= htmlspecialchars($users[0]['nombre_usuario']) ?></span>
-      <?php } ?>
-      <span><?= htmlspecialchars($horaActual) ?></span> <!-- Muestra la hora actual -->
-    </h1>
-    <h3 class="welcome-sub-text">Your performance summary this week</h3>
-  </li>
-</ul>
+        <ul class="navbar-nav">
+          <li class="nav-item fw-semibold d-none d-lg-block ms-0">
+            <h1 class="welcome-text">
+              <?= htmlspecialchars($saludo) ?>, <span><?= htmlspecialchars($saludoTipoUsuario) ?></span>
+              <?php if (!empty($users)) { ?>
+                <span><?= htmlspecialchars($users[0]['nombre_usuario']) ?></span>
+              <?php } ?>
+              <span><?= htmlspecialchars($horaActual) ?></span> <!-- Muestra la hora actual -->
+            </h1>
+
+          </li>
+        </ul>
 
         <ul class="navbar-nav ms-auto">
 
           <li class="nav-item dropdown d-none d-lg-block user-dropdown">
             <a class="nav-link" id="UserDropdown" href="#" data-bs-toggle="dropdown" aria-expanded="false">
-              <img class="img-xs rounded-circle" src="../../../img/users-gear-solid.svg" alt="Profile image"> </a>
+              <img class="img-xs rounded-circle" src="../../../img/universal-access-solid.svg" alt="Profile image"> </a>
             <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
               <div class="dropdown-header text-center">
-                <img class="img-md rounded-circle" src="assets/images/faces/face8.jpg" alt="Profile image">
-                <p class="mb-1 mt-3 fw-semibold">Allen Moreno</p>
-                <p class="fw-light text-muted mb-0">allenmoreno@gmail.com</p>
+                <p><?= htmlspecialchars($saludoTipoUsuario) ?></span></p>
+                <p class="mb-1 mt-3 fw-semibold"><?= htmlspecialchars($users[0]['nombre_usuario']) ?></p>
+                <p class="fw-light text-muted mb-0"><?= htmlspecialchars($email) ?></p>
               </div>
-              <a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-power text-primary me-2"></i>Sign Out</a>
+              <a class="dropdown-item" id="logoutBtn"> <i class="fa-solid fa-right-from-bracket"></i>Cerrar Sesión</a>
             </div>
           </li>
         </ul>
@@ -245,14 +251,17 @@ $conn->close();
                       <div class="col-sm-12">
                         <div class="statistics-details d-flex align-items-center justify-content-between">
                           <div></div>
-                          <div style="width: 40%; border: 1px solid black; text-align: center;">
+                          <div id="cont">
                             <p class="statistics-title">Número de Usuarios Creados</p>
                             <h3 class="rate-percentage"><?= htmlspecialchars($totalUsuarios) ?></h3>
+                            <p><i class="fa-solid fa-users-viewfinder"></i></p>
                           </div>
 
-                          <div style="width: 40%; border: 1px solid black; text-align: center;">
+                          <div id="cont">
                             <p class="statistics-title">Número de Dependencias Creadas</p>
                             <h3 class="rate-percentage"><?= htmlspecialchars($totalDependencias) ?></h3>
+                            <p id="build"><i class="fa-solid fa-building-un"></i><i
+                                class="fa-solid fa-building-un"></i><i class="fa-solid fa-building-un"></i></p>
                           </div>
                           <div></div>
                         </div>
@@ -266,10 +275,19 @@ $conn->close();
                             <div class="card card-rounded">
                               <div class="card-body">
                                 <div class="d-sm-flex justify-content-between align-items-start">
-
-                                  <div>
-                                    <button class="btn btn-primary btn-lg text-white mb-0 me-0" type="button"><i
-                                        class="mdi mdi-account-plus"></i>Add new member</button>
+                                  <div id="add">
+                                    <div id="add1"> <a type="button" href=""><i class="mdi mdi-account-plus"></i>Añadir
+                                        usuario</a>
+                                    </div>
+                                    <div id="add1"><a type="button" href=""><i class="mdi mdi-account-plus"></i>Añadir
+                                        Dependencia</a>
+                                    </div>
+                                    <div id="add1"> <a type="button" href=""><i class="mdi mdi-account-plus"></i>Ver
+                                        todos los
+                                        usuarios</a></div>
+                                    <div id="add1"> <a type="button" href=""><i class="mdi mdi-account-plus"></i>Ver
+                                        todas las
+                                        Dependencias</a></div>
                                   </div>
                                 </div>
                                 <div class="table-responsive mt-1">
@@ -339,10 +357,10 @@ $conn->close();
                                           </td>
                                           <td>
                                             <div class="btn-group" role="group">
-                                              <a href="editar.php?id=<?= $user['id'] ?>"
-                                                class="btn btn-primary" id="edit" >Editar</a>
-                                              <a href="eliminar.php?id=<?= $user['id'] ?>"
-                                                class="btn btn-danger" id="delete" style="background-color:  #eb4947; color: #fff; border: 1px solid white;" >Eliminar</a>
+                                              <a href="editar.php?id=<?= $user['id'] ?>" class="btn btn-primary"
+                                                id="edit"><i class="fa-regular fa-pen-to-square"></i> Editar</a>
+                                              <a href="eliminar.php?id=<?= $user['id'] ?>" class="btn btn-danger"
+                                                id="delete"> <i class="fa-solid fa-trash"></i> Eliminar</a>
                                             </div>
                                           </td>
                                         </tr>
@@ -400,6 +418,13 @@ $conn->close();
   <script src="assets/js/dashboard.js"></script>
   <!-- <script src="assets/js/Chart.roundedBarCharts.js"></script> -->
   <!-- End custom js for this page-->
+  <script>
+    document.getElementById('logoutBtn').addEventListener('click', function () {
+      fetch('../../logout.php', { method: 'POST' })
+        .then(response => response.json())
+        .then(() => { alert('Cerraste sesión.'); window.location.href = '../../login.php'; });
+    });
+  </script>
 </body>
 
 </html>

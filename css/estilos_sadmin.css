@@ -1,0 +1,105 @@
+#cont {
+    background-color: rgb(235, 73, 71);
+    text-align: center;
+    padding: 5px;
+    border-radius: 10px;
+    color: #ffffff;
+    transition: all 0.3s ease-out;
+    border: 1px solid #ffffff;
+}
+
+#cont h3 {
+    color: #ffffff;
+}
+
+#cont p {
+    color: #ffffff;
+}
+
+#cont:hover {
+    background-color: white;
+    transition: all 0.3s ease-out;
+    border: 1px solid #eb4947;
+    color: #eb4947;
+}
+
+#cont:hover h3 {
+    color: #eb4947;
+    transition: all 0.3s ease-out;
+
+}
+
+#cont:hover p {
+    color: #eb4947;
+    transition: all 0.3s ease-out;
+
+}
+
+#build {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+}
+
+#logoutBtn i {
+    color: #eb4947;
+    margin-right: 5px;
+}
+
+#delete {
+    background-color: rgb(235, 73, 71);
+    text-align: center;
+    padding: 5px;
+    border-radius: 10px;
+    color: #ffffff;
+    transition: all 0.3s ease-out;
+    border: 1px solid #ffffff;
+}
+
+#edit {
+    background-color: rgb(235, 73, 71);
+    text-align: center;
+    padding: 5px;
+    border-radius: 10px;
+    color: #ffffff;
+    transition: all 0.3s ease-out;
+    border: 1px solid #ffffff;
+}
+
+#delete:hover {
+    background-color: white;
+    transition: all 0.3s ease-out;
+    border: 1px solid #eb4947;
+    color: #eb4947;
+}
+
+#edit:hover {
+    background-color: white;
+    transition: all 0.3s ease-out;
+    border: 1px solid #eb4947;
+    color: #eb4947;
+}
+#add1{
+    background-color: rgb(235, 73, 71);
+    text-align: center;
+    padding: 5px;
+    border-radius: 10px;
+    color: #ffffff;
+    transition: all 0.3s ease-out;
+    border: 1px solid #ffffff;  
+}
+#add1:hover {
+    background-color: white;
+    transition: all 0.3s ease-out;
+    border: 1px solid #eb4947;
+    color: #eb4947;
+
+}
+
+#add{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+}
