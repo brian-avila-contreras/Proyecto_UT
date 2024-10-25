@@ -95,8 +95,22 @@ if (date('H') < 12) {
 } else {
   $saludo = "Buenas noches";
 }
+
+// Obtener las dependencias para el select
+$sqlDependenciasList = "SELECT id, nombre_dependencia FROM dependencia";
+$resultDependenciasList = $conn->query($sqlDependenciasList);
+
+// Almacenar las dependencias en un array para el select
+$dependencias = [];
+if ($resultDependenciasList && $resultDependenciasList->num_rows > 0) {
+  while ($row = $resultDependenciasList->fetch_assoc()) {
+    $dependencias[] = $row;
+  }
+}
+
 $conn->close();
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -165,7 +179,7 @@ $conn->close();
         <ul class="navbar-nav ms-auto">
 
           <li class="nav-item dropdown d-none d-lg-block user-dropdown">
-            <a class="nav-link" id="UserDropdown" href="#" data-bs-toggle="dropdown" aria-expanded="false">
+            <a class="nav-link1" id="UserDropdown" href="#" data-bs-toggle="dropdown" aria-expanded="false">
               <img class="img-xs rounded-circle" src="../../../img/universal-access-solid.svg" alt="Profile image"> </a>
             <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
               <div class="dropdown-header text-center">
@@ -198,10 +212,10 @@ $conn->close();
             </a>
             <div class="collapse" id="form-elements">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"><a class="nav-link" href="pages/forms/basic_elements.html"
-                    style="color: #333;">Nueva dependencia</a></li>
-                <li class="nav-item"><a class="nav-link" href="pages/forms/basic_elements.html"
-                    style="color: #333;">Todas las dependencias</a></li>
+                <li class="nav-item"><a class="nav-link" href="pages/forms/basic_elements.html" style="color: #333;">Ver
+                    las dependencia</a></li>
+                <li class="nav-item"><a class="nav-link" href="" style="color: #333;">Registrar Dependencias</a>
+                </li>
               </ul>
             </div>
           </li>
@@ -211,44 +225,23 @@ $conn->close();
             <a class="nav-link" data-bs-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth"
               style="color: #333;">
               <i class="menu-icon mdi mdi-account-circle-outline" style="color: #333;"></i>
-              <span class="menu-title" style="color: #333;">User Pages</span>
+              <span class="menu-title" style="color: #333;">Usuarios</span>
               <i class="menu-arrow" style="color: #333;"></i>
             </a>
             <div class="collapse" id="auth">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"><a class="nav-link" href="pages/samples/blank-page.html" style="color: #333;">Blank
-                    Page</a></li>
-                <li class="nav-item"><a class="nav-link" href="pages/samples/error-404.html"
-                    style="color: #333;">404</a></li>
-                <li class="nav-item"><a class="nav-link" href="pages/samples/error-500.html"
-                    style="color: #333;">500</a></li>
-                <li class="nav-item"><a class="nav-link" href="pages/samples/login.html" style="color: #333;">Login</a>
+                <li class="nav-item"><a class="nav-link" href="pages/samples/blank-page.html" style="color: #333;">Ver
+                    los usuarios</a></li>
+                <li class="nav-item"><a class="nav-link" href="ru.php" style="color: #333;">Registrar
+                    Usuarios</a>
                 </li>
-                <li class="nav-item"><a class="nav-link" href="pages/samples/register.html"
-                    style="color: #333;">Register</a></li>
+
               </ul>
             </div>
           </li>
 
           <!-- Sección Tablas de Información -->
-          <li class="nav-item" id="tablas-informacion">
-            <a class="nav-link" data-bs-toggle="collapse" href="#info-tables" aria-expanded="false"
-              aria-controls="info-tables" style="color: #333;">
-              <i class="menu-icon mdi mdi-table" style="color: #333;"></i>
-              <span class="menu-title" style="color: #333;">Informacíon</span>
-              <i class="menu-arrow" style="color: #333;"></i>
-            </a>
-            <div class="collapse" id="info-tables">
-              <ul class="nav flex-column sub-menu">
-                <li class="nav-item"><a class="nav-link" href="pages/tables/info-table1.html" style="color: #333;">Tabla
-                    1</a></li>
-                <li class="nav-item"><a class="nav-link" href="pages/tables/info-table2.html" style="color: #333;">Tabla
-                    2</a></li>
-                <li class="nav-item"><a class="nav-link" href="pages/tables/info-table3.html" style="color: #333;">Tabla
-                    3</a></li>
-              </ul>
-            </div>
-          </li>
+
         </ul>
       </nav>
 
@@ -434,32 +427,47 @@ $conn->close();
   <!-- <script src="assets/js/Chart.roundedBarCharts.js"></script> -->
   <!-- End custom js for this page-->
   <script>
-    // Cambiar el color de texto e íconos a rojo cuando el elemento está activo
-    document.querySelectorAll('.nav-link').forEach(link => {
+  // Esperar a que el DOM esté cargado
+  document.addEventListener("DOMContentLoaded", function () {
+    // Desactivar la activación automática de cualquier submenú
+    document.querySelectorAll('.collapse').forEach(collapse => {
+      collapse.classList.remove('show'); // Asegurarse de que los submenús estén cerrados inicialmente
+    });
+
+    // Aplicar estilos solo a los iconos cuando el enlace está activo por selección del usuario
+    document.querySelectorAll('.nav-link2').forEach(link => {
       link.addEventListener('click', function () {
-        // Resetear colores de todos los enlaces
-        document.querySelectorAll('.nav-link').forEach(l => {
+        // Restablecer el color de todos los enlaces y iconos
+        document.querySelectorAll('.nav-link2').forEach(l => {
           l.style.color = '#333';
           l.querySelectorAll('i').forEach(icon => {
             icon.style.color = '#333';
           });
         });
 
-        // Cambiar colores al enlace activo
-        this.style.color = 'red';
+        // Cambiar el color de los iconos del enlace activo
+        this.style.color = '#ff6666'; // Solo cambia el color del texto del enlace
         this.querySelectorAll('i').forEach(icon => {
-          icon.style.color = 'red';
+          icon.style.color = '#ff6666';
         });
       });
     });
-  </script>
-  <script>
-    document.getElementById('logoutBtn').addEventListener('click', function () {
-      fetch('../../logout.php', { method: 'POST' })
-        .then(response => response.json())
-        .then(() => { alert('Cerraste sesión.'); window.location.href = '../../login.php'; });
-    });
-  </script>
+  });
+</script>
+
+<script>
+  // Script para el cierre de sesión
+  document.getElementById('logoutBtn').addEventListener('click', function () {
+    fetch('../../logout.php', { method: 'POST' })
+      .then(response => response.json())
+      .then(() => {
+        alert('Cerraste sesión.');
+        window.location.href = '../../login.php';
+      });
+  });
+</script>
+
+
 </body>
 
 </html>
